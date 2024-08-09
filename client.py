@@ -67,7 +67,7 @@ def upload_file(server_ip, port, local_path, remote_filename, num_threads=4):
     for i in range(num_threads):
         start = i * chunk_size
         end = file_size if i == num_threads - 1 else (i + 1) * chunk_size
-        thread = threading.Thread(target=upload_chunk, args=(filename, start, end, server_ip, port))
+        thread = threading.Thread(target=upload_chunk, args=(local_path, start, end, server_ip, port))
         threads.append(thread)
         thread.start()
 
