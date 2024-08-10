@@ -13,21 +13,21 @@ def get_file_size(server_ip, port, filename):
     client.close()
     return file_size
 
-def download_chunk(filename, start, end, server_ip, port):
+def download_chunk(filename, start, end, server_ip, port, save_path):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((server_ip, port))
     request = f"download {filename} {start} {end}"
     client.send(request.encode())
 
     data = client.recv(end - start)
-    with open(f"{filename}.part{start}", 'wb') as f:
+    with open(f"{save_path}.part{start}", 'wb') as f:
         f.write(data)
     client.close()
 
-def upload_chunk(filename, start, end, server_ip, port):
+def upload_chunk(filename, start, end, server_ip, port, remote_filename):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((server_ip, port))
-    request = f"upload {filename} {start} {end}"
+    request = f"upload {remote_filename} {start} {end}"
     client.send(request.encode())
 
     with open(filename, 'rb') as f:

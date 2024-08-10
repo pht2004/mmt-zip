@@ -18,7 +18,7 @@ def handle_client(client_socket):
             client_socket.sendall(b"0")
     elif command == "download":
         filename, start, end = parts[1], int(parts[2]), int(parts[3])
-        with open(os.path.join(SERVER_DIRECTORY, filename), 'rb') as f:
+        with open(os.path.join(SERVER_DIRECTORY, filename), 'r+b') as f:
             f.seek(start)
             data = f.read(end - start)
             client_socket.sendall(data)
